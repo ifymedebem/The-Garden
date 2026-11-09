@@ -1,6 +1,8 @@
-# The Garden
+# The-Garden
 
-A library for the curious. A responsive web app based on the Library Explorer PRD: walk a warm library aisle, enter one of six shelves, read a finite collection of sourced ideas, and keep private notes.
+A library for the curious.
+
+A responsive web app based on the Library Explorer PRD: walk a warm library aisle, enter one of six shelves, read a finite collection of sourced ideas, and keep private notes.
 
 ## Run locally
 
