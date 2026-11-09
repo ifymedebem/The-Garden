@@ -1,0 +1,15 @@
+{
+  "name": "the-garden",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A walk-through learning library",
+  "type": "module",
+  "scripts": {
+    "check": "node --check dist/app.js && node --check scripts/ingest.mjs && node --test scripts/*.test.mjs",
+    "ingest": "node scripts/ingest.mjs",
+    "start": "python3 -m http.server 3000 --directory dist"
+  },
+  "devDependencies": {
+    "linkedom": "^0.18.15"
+  }
+}
