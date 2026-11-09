@@ -1,21 +1,22 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {parseHTML} from 'linkedom';
+import {libraryMarkup,mountLibrary} from '../dist/library3d.js';
 import {readFile} from 'node:fs/promises';
-const source=await readFile(new URL('../dist/app.js',import.meta.url),'utf8');
+const source=(await readFile(new URL('../dist/app.js',import.meta.url),'utf8')).replace(/^import .+;\n/,'');
 const data=JSON.parse(await readFile(new URL('../dist/content.json',import.meta.url),'utf8'));
 const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
 async function setup(storage=new Map()){
  const {document,window}=parseHTML('<html><body><div id="app"></div><dialog id="modal"></dialog><div id="toast"></div></body></html>');
  window.scrollTo=()=>{};document.querySelector('#modal').showModal=function(){this.open=true;};document.querySelector('#modal').close=function(){this.open=false;};
  const localStorage={getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)};
- await new AsyncFunction('document','window','localStorage','fetch','setInterval','navigator','URL','Blob',source)(document,window,localStorage,async()=>({ok:true,json:async()=>data}),()=>0,{clipboard:{writeText:async()=>{}}},URL,Blob);
+ await new AsyncFunction('document','window','localStorage','fetch','setInterval','navigator','URL','Blob','libraryMarkup','mountLibrary',source)(document,window,localStorage,async()=>({ok:true,json:async()=>data}),()=>0,{clipboard:{writeText:async()=>{}}},URL,Blob,libraryMarkup,mountLibrary);
  return {document,window,storage};
 }
 test('library walking and list view lead directly into the selected shelf',async()=>{
  const {document:d}=await setup();assert.match(d.querySelector('h1').textContent,/one shelf/);
- d.querySelector('[data-walk="1"]').click();assert.match(d.querySelector('.zone-sign').textContent,/CHANGING/);
- d.querySelector('[data-mode="list"]').click();assert.equal(d.querySelector('.aisle'),null);
+ const before=Number(d.querySelector('.library-room').dataset.z);d.querySelector('[data-move="forward"]').click();assert.ok(Number(d.querySelector('.library-room').dataset.z)<before);
+ d.querySelector('[data-mode="list"]').click();assert.equal(d.querySelector('.library-room'),null);
  d.querySelector('.section-card[data-section="history"]').click();assert.match(d.querySelector('h1').textContent,/African History/);assert.equal(d.querySelectorAll('.read-card').length,3);
 });
 test('save and private-note edits persist after reloading the app',async()=>{
