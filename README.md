@@ -41,13 +41,13 @@ The GitHub Actions workflow refreshes the source snapshot every six hours and on
 
 ## Garden, navigation, and sound
 
-The sidebar starts hidden. Hover over the top-left Garden icon or click it to reveal navigation; close with Escape, the close button, the icon, or a click outside. Touch users tap the icon. Hidden navigation is inert and not keyboard focusable. The central winding bookcase has collision boundaries; automatic walking routes around it.
+The sidebar starts hidden. Its full-size logo scrolls with the header; opening the sidebar hides that header logo to avoid duplicate branding. A small, invisible corner shortcut remains available while scrolling. Hover over the top-left Garden icon or click it to reveal navigation; close with Escape, the close button, the icon, or a click outside. Touch users tap the icon. Hidden navigation is inert and not keyboard focusable. The central winding bookcase has collision boundaries; automatic walking routes around it.
 
 Click **Garden sounds** to enable locally synthesised flowing water and intermittent birdsong; a slider controls volume. Audio is off by default, never autoplays, and stops when you leave the garden. No microphone, external audio files, or sound-service requests are used.
 
 ## Moving through the library
 
-Click or tap the room to focus it. Use **W / S** or **up / down arrows** to move forward/back, **A / D** to step sideways, and **left / right arrows** or **Q / E** to turn. Drag horizontally to look around. Mobile has press-and-hold movement and turn controls. Click a floating shelf sign, or press **Enter** when a shelf is nearby, to read it.
+Click or tap the room to focus it. Use **W / S** or **up / down arrows** to move forward/back, **A / D** to step sideways, and **left / right arrows** or **Q / E** to turn. Drag horizontally to look around. Mobile has press-and-hold movement and turn controls. Hover or keyboard-focus a shelf to reveal one section preview at a time; clicking the shelf opens its reading feed. On touch screens, the first tap reveals the preview and its Explore button (a second tap also opens the feed). Press **Enter** when a shelf is nearby to read it. The default garden no longer includes the card grid; choose **Shelf view** or search for a responsive card list. Read and note counts use singular wording when the count is one.
 
 “Take me to” and “Surprise me” walk the camera through the room; manual movement stops automatic walking. The map follows your real position. Expand the room with the top-right button; Escape closes it. Your position is retained while entering and leaving reading feeds during a visit. Reduced-motion preferences disable automatic camera travel; Shelf view remains available, and browsers without Canvas get direct shelf buttons.
 
@@ -59,7 +59,7 @@ Before calling this a production MVP: confirm the approved-source list and reuse
 
 ## Deployment
 
-`dist/` is a portable static site. `.openai/hosting.json` identifies its private Sites deployment. No secrets or API keys are required or committed. GitHub source visibility is independent of the hosted app's visitor access. The frontend's fonts are served by Google Fonts; remote thumbnails come from the attributed providers.
+`dist/` is a portable static site. `.openai/hosting.json` identifies its Sites deployment. No secrets or API keys are required or committed. GitHub source visibility is independent of the hosted app's visitor access. The frontend's fonts are served by Google Fonts; remote thumbnails come from the attributed providers.
 
 ## Tests
 

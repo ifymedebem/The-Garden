@@ -7,11 +7,11 @@ import {readFile} from 'node:fs/promises';
 const source=(await readFile(new URL('../dist/app.js',import.meta.url),'utf8')).replace(/^import .+;\n/gm,'');
 const data=JSON.parse(await readFile(new URL('../dist/content.json',import.meta.url),'utf8'));
 const AsyncFunction=Object.getPrototypeOf(async function(){}).constructor;
-async function setup(storage=new Map()){
+async function setup(storage=new Map(),snapshot=data){
  const {document,window}=parseHTML('<html><body><div id="app"></div><dialog id="modal"></dialog><div id="toast"></div></body></html>');
  window.scrollTo=()=>{};document.querySelector('#modal').showModal=function(){this.open=true;};document.querySelector('#modal').close=function(){this.open=false;};
  const localStorage={getItem:k=>storage.get(k)||null,setItem:(k,v)=>storage.set(k,v)};
- await new AsyncFunction('document','window','localStorage','fetch','setInterval','navigator','URL','Blob','libraryMarkup','mountLibrary','createGardenAudio',source)(document,window,localStorage,async()=>({ok:true,json:async()=>data}),()=>0,{clipboard:{writeText:async()=>{}}},URL,Blob,libraryMarkup,mountLibrary,createGardenAudio);
+ await new AsyncFunction('document','window','localStorage','fetch','setInterval','navigator','URL','Blob','libraryMarkup','mountLibrary','createGardenAudio',source)(document,window,localStorage,async()=>({ok:true,json:async()=>structuredClone(snapshot)}),()=>0,{clipboard:{writeText:async()=>{}}},URL,Blob,libraryMarkup,mountLibrary,createGardenAudio);
  return {document,window,storage};
 }
 test('library walking and list view lead directly into the selected shelf',async()=>{
@@ -42,4 +42,14 @@ test('garden navigation opens from corner hover or the icon and closes on Escape
  assert.equal(button.getAttribute('aria-expanded'),'true');assert.equal(sidebar.inert,false);
  const escape=new w.Event('keydown');escape.key='Escape';d.dispatchEvent(escape);assert.equal(button.getAttribute('aria-expanded'),'false');
  button.click();assert.equal(button.getAttribute('aria-expanded'),'true');d.querySelector('.menu-scrim').click();assert.equal(button.getAttribute('aria-expanded'),'false');
+});
+test('garden stays uncluttered and shelf view separates illustrations from card text',async()=>{
+ const {document:d}=await setup();assert.equal(d.querySelector('.section-grid'),null);
+ d.querySelector('[data-mode="list"]').click();assert.equal(d.querySelectorAll('.section-grid>.section-card').length,6);
+ for(const card of d.querySelectorAll('.section-card')){assert.ok(card.querySelector(':scope > .section-art'));assert.ok(card.querySelector(':scope > .section-info'));assert.equal(card.querySelector('.section-art .section-info'),null);}
+});
+test('one read uses singular wording in shelf and feed counts',async()=>{
+ const snapshot=structuredClone(data);snapshot.cards=snapshot.cards.filter(c=>c.section!=='history').concat(snapshot.cards.find(c=>c.section==='history'));
+ const {document:d}=await setup(new Map(),snapshot);d.querySelector('[data-mode="list"]').click();assert.match(d.querySelector('[data-section="history"].section-card').textContent,/1 short read/);assert.doesNotMatch(d.querySelector('[data-section="history"].section-card').textContent,/1 short reads/);
+ d.querySelector('[data-section="history"].section-card').click();assert.match(d.querySelector('.feed-meta').textContent,/1 short read/);assert.doesNotMatch(d.querySelector('.feed-meta').textContent,/1 short reads/);
 });

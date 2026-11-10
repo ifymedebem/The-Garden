@@ -2,7 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {parseHTML} from 'linkedom';
 import {readFile} from 'node:fs/promises';
-import {shelves,startPose,move,nearestShelf,project,walkToward,collidesWithShelf} from '../dist/library-world.js';
+import {shelves,startPose,move,nearestShelf,project,walkToward,collidesWithShelf,shelfBounds} from '../dist/library-world.js';
 import {buildScene,clipNear,libraryMarkup,mountLibrary,butterflies} from '../dist/library3d.js';
 const data=JSON.parse(await readFile(new URL('../dist/content.json',import.meta.url),'utf8'));
 
@@ -41,6 +41,10 @@ test('canvas renderer, movement controls, map, nearby shelf, and expand/reset wo
  d.querySelector('canvas').getContext=()=>({setTransform(){},clearRect(){},createLinearGradient:()=>gradient,createRadialGradient:()=>gradient,fillRect(){draws++;},beginPath(){},moveTo(...v){assert.ok(v.every(Number.isFinite));},lineTo(...v){assert.ok(v.every(Number.isFinite));},closePath(){},fill(){draws++;}});
  let callback;w.requestAnimationFrame=fn=>{callback=fn;return 1;};w.cancelAnimationFrame=()=>{};
  const selected=[],controller=mountLibrary(room,{sections:data.sections,onSelect:id=>selected.push(id)});
+ const hit=room.querySelector('.shelf-hotspot[data-room-open="history"]');assert.equal(room.querySelector('.shelf-preview').hidden,true);
+ const hover=new w.Event('pointerenter');hover.pointerType='mouse';hit.dispatchEvent(hover);assert.equal(room.querySelector('.shelf-preview').hidden,false);assert.match(room.querySelector('.shelf-preview h3').textContent,/African History/);
+ const escape=new w.Event('keydown',{bubbles:true});escape.key='Escape';viewport.dispatchEvent(escape);assert.equal(room.querySelector('.shelf-preview').hidden,true);
+ const down=new w.Event('pointerdown');down.pointerType='touch';hit.dispatchEvent(down);hit.click();assert.deepEqual(selected,[]);assert.equal(room.querySelector('.shelf-preview').hidden,false);room.querySelector('.shelf-preview button').click();assert.deepEqual(selected,['history']);selected.length=0;
  assert.ok(draws>100);assert.equal(d.querySelector('.room-fallback').hidden,true);
  const originalMap=d.querySelector('.map-player').getAttribute('transform');
  d.querySelector('[data-move="forward"]').click();assert.ok(Number(room.dataset.z)<6.2);assert.notEqual(d.querySelector('.map-player').getAttribute('transform'),originalMap);
@@ -52,6 +56,9 @@ test('canvas renderer, movement controls, map, nearby shelf, and expand/reset wo
  d.querySelector('.room-expand').click();assert.ok(room.classList.contains('is-expanded'));assert.ok(d.body.classList.contains('room-is-expanded'));
  d.querySelector('.room-reset').click();assert.equal(Number(room.dataset.z),6.2);assert.equal(Number(room.dataset.x),0);
  controller.dispose();assert.equal(d.body.classList.contains('room-is-expanded'),false);
+});
+test('shelf hit regions follow physical shelves and stay inside mobile and desktop viewports',()=>{
+ for(const width of [350,900,1600]){const regions=shelves.map(s=>shelfBounds(s,startPose(),width,600)).filter(Boolean);assert.ok(regions.length>=2);for(const r of regions){assert.ok(r.x>=0);assert.ok(r.x+r.width<=width);assert.ok(r.y>=0);assert.ok(r.y+r.height<=530);}}
 });
 test('reduced-motion destination shortcuts open the shelf without automatic camera travel',()=>{
  const {document:d}=parseHTML('<html class="reduce-motion"><body>'+libraryMarkup(data.sections)+'</body></html>');

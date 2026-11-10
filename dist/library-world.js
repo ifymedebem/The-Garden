@@ -23,6 +23,15 @@ export function move(pose,{forward=0,strafe=0,turn=0},dt){
 export function nearestShelf(pose,maxDistance=3.4){return shelves.map(s=>({...s,distance:Math.hypot(s.x-pose.x,s.z-pose.z)})).sort((a,b)=>a.distance-b.distance).find(s=>s.distance<maxDistance);}
 export function viewPoint(point,pose){const dx=point[0]-pose.x,dz=point[2]-pose.z;return [dx*Math.cos(pose.yaw)+dz*Math.sin(pose.yaw),point[1]-1.65,dx*Math.sin(pose.yaw)-dz*Math.cos(pose.yaw)];}
 export function project(point,pose,width,height){const [x,y,z]=viewPoint(point,pose);if(z<.12)return null;const focal=width/(2*Math.tan(Math.PI*72/360));return {x:width/2+x*focal/z,y:height*.46-y*focal/z,depth:z};}
+export function shelfBounds(shelf,pose,width,height){
+ const x=shelf.x<0?-4.03:4.03;
+ const corners=[[x,.35,shelf.z-1.75],[x,3.55,shelf.z-1.75],[x,3.55,shelf.z+1.75],[x,.35,shelf.z+1.75]].map(p=>project(p,pose,width,height)).filter(Boolean);
+ if(corners.length<3)return null;
+ const left=Math.max(0,Math.min(...corners.map(p=>p.x))),right=Math.min(width,Math.max(...corners.map(p=>p.x)));
+ const top=Math.max(0,Math.min(...corners.map(p=>p.y))),bottom=Math.min(height-70,Math.max(...corners.map(p=>p.y)));
+ if(right-left<15||bottom-top<35)return null;
+ return {x:left,y:top,width:right-left,height:bottom-top,depth:corners.reduce((n,p)=>n+p.depth,0)/corners.length};
+}
 export function walkToward(pose,target,dt){
  const goal=shelves.find(s=>s.id===target);if(!goal)return true;
  const x=goal.x<0?-2.6:2.6,z=goal.z+1.3;
