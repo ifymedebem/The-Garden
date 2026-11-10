@@ -2,8 +2,8 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {parseHTML} from 'linkedom';
 import {readFile} from 'node:fs/promises';
-import {shelves,startPose,move,nearestShelf,project,walkToward} from '../dist/library-world.js';
-import {buildScene,clipNear,libraryMarkup,mountLibrary} from '../dist/library3d.js';
+import {shelves,startPose,move,nearestShelf,project,walkToward,collidesWithShelf} from '../dist/library-world.js';
+import {buildScene,clipNear,libraryMarkup,mountLibrary,butterflies} from '../dist/library3d.js';
 const data=JSON.parse(await readFile(new URL('../dist/content.json',import.meta.url),'utf8'));
 
 test('movement changes world position and turning changes the direction of travel',()=>{
@@ -57,4 +57,9 @@ test('reduced-motion destination shortcuts open the shelf without automatic came
  const {document:d}=parseHTML('<html class="reduce-motion"><body>'+libraryMarkup(data.sections)+'</body></html>');
  const room=d.querySelector('.library-room'),selected=[];const controller=mountLibrary(room,{sections:data.sections,onSelect:id=>selected.push(id)});
  controller.walkTo('finance');assert.deepEqual(selected,['finance']);assert.equal(controller.pose.z,6.2);controller.dispose();
+});
+test('the central winding shelf blocks walking through it and butterflies animate in world space',()=>{
+ const pose=startPose();for(let i=0;i<150;i++){move(pose,{forward:1},.05);assert.equal(collidesWithShelf(pose.x,pose.z),false);}
+ assert.ok(pose.z>1.8);assert.notDeepEqual(butterflies(0),butterflies(1));
+ const scene=buildScene();assert.ok(scene.some(p=>p.sway));
 });

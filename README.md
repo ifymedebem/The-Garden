@@ -18,9 +18,9 @@ Open http://localhost:3000. Serve over HTTP; opening `index.html` as a file cann
 
 ## Included
 
-- A real-time, first-person library rendered with Canvas 2D perspective geometry: continuous movement, turning, shelf boundaries, position tracking, clickable shelves, automatic walking to destinations, and an expanded room view. No WebGL or external game engine is needed.
+- A real-time, first-person garden library rendered with Canvas 2D perspective geometry: continuous movement, turning, shelf boundaries, position tracking, clickable shelves, automatic walking to destinations, and an expanded room view. No WebGL or external game engine is needed.
 - A reference-inspired palette of cloud peach, water blue, pond green, ivory, terracotta, and gold throughout the app.
-- Six topic shelves, an accessible list view, search, and random discovery. The former static photographic aisle is replaced by a spatial room with books, skylights, plants, and a window seat.
+- Six topic shelves, an accessible list view, search, and random discovery. An open-air garden replaces the indoor room: a winding central bookcase, retained vertical shelves on both sides, grass, stepping stones, flowers, trees, trailing plants, warm hanging bulbs, and a garden bench. Butterflies and foliage animate in world space; reduced motion freezes ambient animation.
 - African History, Geopolitics, Economics for Beginners, World News, Finance & Investment, and Wars & Famines.
 - Source-attributed cards, original links, retrieval dates, full source excerpts, likes, saves, sharing, and finite-feed endings.
 - Browser-local private notes with editing, deletion, search, grouping, and Markdown export. No account required. Notes are **device-local, not encrypted storage**; clearing site data deletes them.
@@ -38,6 +38,12 @@ npm run check
 In a managed environment using proxy variables, run ingestion with `NODE_USE_ENV_PROXY=1` on Node 24. The browser checks for a newly published `content.json` every five minutes and preserves the current feed position when a snapshot changes.
 
 The GitHub Actions workflow refreshes the source snapshot every six hours and on manual dispatch. **It commits to GitHub but does not automatically republish the separately hosted Sites app.** Redeploy the updated source to update that app. Continuous live delivery requires a server-side cache and scheduled deployment/ingestion integration; the interface labels data as snapshots instead of claiming real-time freshness. This initial release is a working prototype, not the full production ingestion service described by the PRD.
+
+## Garden, navigation, and sound
+
+The sidebar starts hidden. Hover over the top-left Garden icon or click it to reveal navigation; close with Escape, the close button, the icon, or a click outside. Touch users tap the icon. Hidden navigation is inert and not keyboard focusable. The central winding bookcase has collision boundaries; automatic walking routes around it.
+
+Click **Garden sounds** to enable locally synthesised flowing water and intermittent birdsong; a slider controls volume. Audio is off by default, never autoplays, and stops when you leave the garden. No microphone, external audio files, or sound-service requests are used.
 
 ## Moving through the library
 
