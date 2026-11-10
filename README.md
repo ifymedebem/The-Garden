@@ -63,7 +63,7 @@ Before calling this a production MVP: confirm the approved-source list and reuse
 
 ## Deployment
 
-`dist/` is a portable static site. `.openai/hosting.json` identifies its Sites deployment. No secrets or API keys are required or committed. GitHub source visibility is independent of the hosted app's visitor access. The frontend's fonts are served by Google Fonts; remote thumbnails come from the attributed providers.
+`dist/` is a portable static site. `.openai/hosting.json` identifies its Sites deployment. No secrets or API keys are required or committed. GitHub source visibility is independent of the hosted app's visitor access. Typography is self-hosted: Berkshire Swash for the wordmark and prominent headings, with Source Sans 3 for reading and controls. Both use the SIL Open Font License; licence files are included in `dist/fonts/`. Remote thumbnails come from the attributed providers.
 
 ## Tests
 
