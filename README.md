@@ -43,7 +43,11 @@ The GitHub Actions workflow refreshes the source snapshot every six hours and on
 
 The sidebar starts hidden. Its full-size logo scrolls with the header; opening the sidebar hides that header logo to avoid duplicate branding. A small, invisible corner shortcut remains available while scrolling. Hover over the top-left Garden icon or click it to reveal navigation; close with Escape, the close button, the icon, or a click outside. Touch users tap the icon. Hidden navigation is inert and not keyboard focusable. The central winding bookcase has collision boundaries; automatic walking routes around it.
 
-Click **Garden sounds** to enable locally synthesised flowing water and intermittent birdsong; a slider controls volume. Audio is off by default, never autoplays, and stops when you leave the garden. No microphone, external audio files, or sound-service requests are used.
+Use the explicit **Garden sounds On/Off** switch beside the volume slider to enable locally synthesised flowing water and intermittent birdsong. Audio is off by default, never autoplays, and stops when you leave the garden. No microphone, external audio files, or sound-service requests are used.
+
+## Local day and night lighting
+
+The optional **Local day/night** switch follows the visitor’s device clock. Daylight runs from 07:00 to 18:00, golden-hour lighting from 06:00 to 07:00 and 18:00 to 20:00, and evening lighting overnight. Manual Daylight and Evening presets let visitors preview either atmosphere at any time. Switching the feature off restores daylight. The preference is saved in the browser and checked each minute while enabled; nighttime darkens scene colours and adds stronger warm lamp halos. This is a local-time visual effect, not live weather or location-based sunrise/sunset data, and requires no API key or location permission.
 
 ## Moving through the library
 

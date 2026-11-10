@@ -176,3 +176,22 @@ body{background:var(--paper)}
 @media(max-width:1150px){.section-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:760px){.sidebar{padding-top:26px}.sidebar-close{top:20px}.section-grid{gap:13px}.section-card{grid-template-columns:minmax(0,1fr)}.section-card>.section-art{min-height:110px}.section-card>.section-info{padding:16px 13px}.section-info h3{font-size:20px}.section-info p{font-size:11px;min-height:53px}.section-info>small{font-size:7px}.shelf-preview{width:250px;top:43%;padding:19px}.shelf-preview h3{font-size:24px}.shelf-pin{width:32px;height:32px}}
 @media(max-width:420px){.section-grid{grid-template-columns:1fr}.section-card{grid-template-columns:90px minmax(0,1fr)}.section-card>.section-art{min-height:160px}.section-info p{min-height:0}.section-info h3{font-size:21px}}
+
+.topbar-right{margin-left:auto}
+.garden-sound-controls{gap:9px}.sound-label{font-size:10px;color:#829064;white-space:nowrap}
+.garden-sound,.lighting-toggle{min-width:43px;min-height:29px;padding:5px 9px;border:1px solid #cccda7;border-radius:15px;background:#eee9d4;color:#8f8b6b;font-size:10px;font-weight:600;white-space:nowrap}
+.garden-sound[aria-checked=true],.lighting-toggle[aria-checked=true]{background:#738f69;border-color:#738f69;color:#fffbed}
+.garden-sound:disabled{opacity:.6}.garden-volume{width:65px}
+.garden-lighting-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.garden-lighting-controls>label{font-size:9px;color:#7e8c64;white-space:nowrap}
+.garden-lighting-controls select{font:10px 'DM Sans',sans-serif;color:#7f865f;border:1px solid #d1d5b4;border-radius:5px;padding:7px 8px;background:#fbf8e7;max-width:150px}
+.garden-lighting-controls select:disabled{opacity:.5}
+.lighting-status{font-size:8px;color:#9b916c;min-width:70px}
+.library-room[data-lighting=night] .room-viewport{background:#263b4a}
+.library-room[data-lighting=night] .room-title{background:#263d47df;border-color:#8d95763d;box-shadow:0 3px 20px #121d3033}
+.library-room[data-lighting=night] .room-title h2{color:#e7d7ab}.library-room[data-lighting=night] .room-title p{color:#b8c1a4}.library-room[data-lighting=night] .room-title>span{color:#bdad83}
+.library-room[data-lighting=night] .room-crosshair{color:#e4cd8c}
+.library-room[data-lighting=night] .shelf-pin{background:#eddaac;color:#7c7451;box-shadow:0 0 18px #f6cb7840}
+.library-room[data-lighting=dusk] .room-title{background:#ffefd4d4;border-color:#e1c0a0}
+@media(max-width:1100px){.room-heading{flex-wrap:wrap;gap:11px}.room-live{display:none}.garden-lighting-controls{margin-left:auto}.lighting-status{display:none}}
+@media(max-width:760px){.room-heading{gap:10px;padding:13px}.room-tag{width:100%}.garden-lighting-controls{width:100%;margin-left:0;gap:8px}.garden-lighting-controls>label{font-size:10px}.garden-lighting-controls select{flex:1;max-width:none;font-size:10px;min-height:35px}.lighting-toggle{min-height:35px;min-width:43px}.sound-label{font-size:9px}.garden-sound-controls{gap:7px;padding:7px 8px}.garden-sound{min-height:31px;min-width:40px;padding:5px 7px;font-size:9px}.garden-volume{width:48px}}

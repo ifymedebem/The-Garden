@@ -45,6 +45,7 @@ test('garden navigation opens from corner hover or the icon and closes on Escape
 });
 test('garden stays uncluttered and shelf view separates illustrations from card text',async()=>{
  const {document:d}=await setup();assert.equal(d.querySelector('.section-grid'),null);
+ assert.equal(d.querySelector('.breadcrumb'),null);const sound=d.querySelector('.garden-sound');assert.equal(sound.getAttribute('role'),'switch');assert.equal(sound.getAttribute('aria-checked'),'false');assert.equal(sound.textContent,'Off');assert.ok(d.querySelector('.sound-label'));assert.ok(d.querySelector('.garden-volume'));
  d.querySelector('[data-mode="list"]').click();assert.equal(d.querySelectorAll('.section-grid>.section-card').length,6);
  for(const card of d.querySelectorAll('.section-card')){assert.ok(card.querySelector(':scope > .section-art'));assert.ok(card.querySelector(':scope > .section-info'));assert.equal(card.querySelector('.section-art .section-info'),null);}
 });

@@ -46,6 +46,9 @@ test('canvas renderer, movement controls, map, nearby shelf, and expand/reset wo
  const escape=new w.Event('keydown',{bubbles:true});escape.key='Escape';viewport.dispatchEvent(escape);assert.equal(room.querySelector('.shelf-preview').hidden,true);
  const down=new w.Event('pointerdown');down.pointerType='touch';hit.dispatchEvent(down);hit.click();assert.deepEqual(selected,[]);assert.equal(room.querySelector('.shelf-preview').hidden,false);room.querySelector('.shelf-preview button').click();assert.deepEqual(selected,['history']);selected.length=0;
  assert.ok(draws>100);assert.equal(d.querySelector('.room-fallback').hidden,true);
+ const light=d.querySelector('.lighting-toggle'),mode=d.querySelector('#lighting-mode');assert.equal(light.getAttribute('aria-checked'),'false');assert.equal(mode.disabled,true);
+ light.click();assert.equal(light.getAttribute('aria-checked'),'true');assert.equal(mode.disabled,false);for(const option of mode.querySelectorAll('option'))option.selected=option.value==='evening';mode.dispatchEvent(new w.Event('change'));assert.equal(room.dataset.lighting,'night');
+ light.click();assert.equal(room.dataset.lighting,'day');assert.equal(mode.disabled,true);
  const originalMap=d.querySelector('.map-player').getAttribute('transform');
  d.querySelector('[data-move="forward"]').click();assert.ok(Number(room.dataset.z)<6.2);assert.notEqual(d.querySelector('.map-player').getAttribute('transform'),originalMap);
  const pointer=(type,x)=>{const event=new w.Event(type,{bubbles:true});Object.assign(event,{pointerId:1,clientX:x});viewport.dispatchEvent(event);};pointer('pointerdown',100);pointer('pointermove',130);pointer('pointerup',130);assert.ok(Number(room.dataset.yaw)>.1);
